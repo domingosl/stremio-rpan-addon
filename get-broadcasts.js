@@ -2,7 +2,15 @@ const got = require('got');
 const getAccessToken = require('./get-access-token');
 const userAgent = require('random-useragent').getRandom();
 
+let cachedData;
+let cachedOn;
+
+const maxCacheTime = 30000;
+
 const download = async () => {
+
+    if(cachedData && (new Date().getTime() - cachedOn) < maxCacheTime)
+        return cachedData;
 
     const response = await got('https://strapi.reddit.com/broadcasts', {
         headers: {
@@ -22,14 +30,18 @@ const download = async () => {
         }
     });
 
-    return JSON.parse(response.body).data.map(broadcast => {
+    cachedData = JSON.parse(response.body).data.map(broadcast => {
         return {
-            id: broadcast.stream.stream_id,
+            id: 'sr-' + broadcast.stream.stream_id,
             title: broadcast.post.title,
             thumbnail: broadcast.stream.thumbnail,
-            url: broadcast.stream.hls_url
+            streamUrl: broadcast.stream.hls_url,
+            website: broadcast.post.url,
+            type: 'tv'
         };
     });
+
+    return cachedData;
 
 };
 

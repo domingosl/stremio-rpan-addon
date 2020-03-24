@@ -1,6 +1,5 @@
-const { addonBuilder } = require("stremio-addon-sdk");
-const magnet = require("magnet-uri");
-const getStremioStreams = require('./get-stremio-streams');
+const { addonBuilder }  = require("stremio-addon-sdk");
+const getBroadcasts     = require('./get-broadcasts');
 
 const manifest = {
     "id": "org.lupo.stremiorpan",
@@ -9,7 +8,8 @@ const manifest = {
     "description": "See redittors streaming live directly from Stremio!",
     "resources": [
         "catalog",
-        "stream"
+        "stream",
+        "meta"
     ],
     "types": ["tv"],
     "catalogs": [
@@ -27,35 +27,56 @@ const builder = new addonBuilder(manifest);
 
 builder.defineStreamHandler(async function(args) {
 
-    const dataset = await getStremioStreams();
+    const dataset = await getBroadcasts();
 
-    if (dataset[args.id]) {
-        return Promise.resolve({ streams: [dataset[args.id]] });
-    } else {
-        return Promise.resolve({ streams: [] });
-    }
+    const found = dataset.find(el => el.id === args.id);
+
+    if(!found)
+        return Promise.resolve({streams: []});
+
+    return Promise.resolve({ streams: [{ title: found.name, url: found.streamUrl }] });
+
 });
 
-const generateMetaPreview = function(stream, key) {
+const generateMetaPreview = function(broadcast) {
 
     return {
-        id: key,
-        type: stream.type,
-        name: stream.name,
-        poster: stream.thumbnail,
-        banner: stream.thumbnail,
+        id: broadcast.id,
+        type: 'tv',
+        name: broadcast.title,
+        description: 'Live stream from Reddit Public Access Network',
+        poster: broadcast.thumbnail,
         posterShape: 'regular',
+        background: broadcast.thumbnail,
+        website: broadcast.website,
         year: new Date().getFullYear()
     };
 };
 
 builder.defineCatalogHandler(async function(args, cb) {
 
-    const metas = Object.entries(await getStremioStreams())
-        .filter(([_, value]) => value.type === args.type)
-        .map(([key, value]) => generateMetaPreview(value, key));
+    const dataset = await getBroadcasts();
+
+    const metas = dataset.filter(el => el.type === args.type)
+        .map(el => generateMetaPreview(el));
 
     return Promise.resolve({ metas:  metas });
+
+});
+
+
+builder.defineMetaHandler(async function(args) {
+
+    const dataset = await getBroadcasts();
+
+    const found = dataset.find(el => el.id === args.id );
+
+    if(!found)
+        return Promise.reject();
+
+    console.log(generateMetaPreview(found));
+
+    return Promise.resolve({ meta: generateMetaPreview(found) });
 
 });
 

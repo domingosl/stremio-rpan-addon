@@ -24,6 +24,7 @@ const download = async () => {
         const at = response.body.substring(realStart, realEnd);
 
         cachedOn = new Date().getTime();
+        cachedData = at;
 
         return at;
 
