@@ -16,6 +16,11 @@ the content is transform into something Stremio can handle. I hope you and every
 in your family are fine and safe during this difficult time and I hope this
 addon can be helpful now and in the future!
 
+
+
+<img src="https://i.paste.pics/366154d3900121bb7dd48c63f136ba2a.png" >
+
+
 ## What is it?
 The worlds first (unofficial) implementation of the [Reddit Public Access
  Network](https://reddit.com/rpan) outside of the Reddit App/WebApp, and it's 
