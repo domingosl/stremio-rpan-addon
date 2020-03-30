@@ -1,5 +1,7 @@
 # Stremio RPAN Addon
 
+**IMPORTANT NOTE: Most of the content creators for this service are from United States, so if you are in Europe you'll find more content if connect later at night!**
+
 #### First a message for the Stremio judge panel
 I won the Stremio SDK contest of 2019 in the category Innovation. This year I was
 working in something also very fun and innovative as my entry to the contest, and then
