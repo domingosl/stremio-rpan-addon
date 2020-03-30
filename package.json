@@ -9,6 +9,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "got": "^10.6.0",
     "random-useragent": "^0.3.1",
     "stremio-addon-sdk": "^1.6.1"
