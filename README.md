@@ -33,7 +33,7 @@ The worlds first (unofficial) implementation of the [Reddit Public Access
 After installing the addon you'll find new TV channels on Stremio that are 
 redditors public streams from RPAN. Update the catalog every few minutes to get new streams.
 
-[![VIDEO](https://img.youtube.com/vi/KjLe0hpyfF8/0.jpg)](https://youtu.be/KjLe0hpyfF8)
+[![VIDEO](https://img.youtube.com/vi/T_rCapON75Q/0.jpg)](https://youtu.be/T_rCapON75Q)
 
 
 ## Disclaimer
